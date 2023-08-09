@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,16 @@ Route::prefix('story')->group(function(){
     Route::put('/{story_id}', [StoryController::class, 'update']);
 
     Route::delete('/{story_id}', [StoryController::class, 'destroy']);
+});
+
+Route::prefix('page')->group(function(){
+    Route::get('/all/{story_id}', [PageController::class, 'index']);
+
+    Route::get('/{page_id}', [PageController::class, 'show']);
+
+    Route::post('/{story_id}', [PageController::class, 'create']);
+
+    Route::put('/{page_id}', [PageController::class, 'update']);
+
+    Route::delete('/{page_id}', [PageController::class, 'destroy']);
 });
