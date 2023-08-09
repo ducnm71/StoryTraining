@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TextController;
+use App\Http\Controllers\AudioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +54,15 @@ Route::prefix('text')->group(function(){
     Route::put('/{text_id}', [TextController::class, 'update']);
 
     Route::delete('/{text_id}', [TextController::class, 'destroy']);
+});
+
+
+Route::prefix('audio')->group(function(){
+    Route::get('/{audio_id}', [AudioController::class, 'show']);
+
+    Route::post('/{text_id}', [AudioController::class, 'create']);
+
+    Route::put('/{audio_id}', [AudioController::class, 'update']);
+
+    Route::delete('/{audio_id}', [AudioController::class, 'destroy']);
 });
