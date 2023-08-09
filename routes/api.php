@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\TextController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,14 @@ Route::prefix('page')->group(function(){
     Route::put('/{page_id}', [PageController::class, 'update']);
 
     Route::delete('/{page_id}', [PageController::class, 'destroy']);
+});
+
+Route::prefix('text')->group(function(){
+    Route::get('/{text_id}', [TextController::class, 'show']);
+
+    Route::post('/', [TextController::class, 'create']);
+
+    Route::put('/{text_id}', [TextController::class, 'update']);
+
+    Route::delete('/{text_id}', [TextController::class, 'destroy']);
 });
