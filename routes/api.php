@@ -6,6 +6,7 @@ use App\Http\Controllers\StoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\Text_ConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,4 +66,16 @@ Route::prefix('audio')->group(function(){
     Route::put('/{audio_id}', [AudioController::class, 'update']);
 
     Route::delete('/{audio_id}', [AudioController::class, 'destroy']);
+});
+
+Route::prefix('text_config')->group(function(){
+    Route::get('/all/{page_id}', [Text_ConfigController::class, 'index']);
+
+    Route::get('/{text_id}', [Text_ConfigController::class, 'show']);
+
+    Route::post('/{page_id}/{text_id}', [Text_ConfigController::class, 'create']);
+
+    Route::put('/{text_id}', [Text_ConfigController::class, 'update']);
+
+    Route::delete('/{text_id}', [Text_ConfigController::class, 'destroy']);
 });
