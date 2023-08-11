@@ -7,6 +7,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\Text_ConfigController;
+use App\Http\Controllers\TouchController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,4 +80,16 @@ Route::prefix('text_config')->group(function(){
     Route::put('/{text_id}', [Text_ConfigController::class, 'update']);
 
     Route::delete('/{text_id}', [Text_ConfigController::class, 'destroy']);
+});
+
+Route::prefix('touch')->group(function(){
+    Route::get('/all/{page_id}', [TouchController::class, 'index']);
+
+    Route::get('/{text_id}', [TouchController::class, 'show']);
+
+    Route::post('/{page_id}/{text_id}', [TouchController::class, 'create']);
+
+    Route::put('/{text_id}', [TouchController::class, 'update']);
+
+    Route::delete('/{text_id}', [TouchController::class, 'destroy']);
 });
