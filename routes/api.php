@@ -8,6 +8,7 @@ use App\Http\Controllers\TextController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\Text_ConfigController;
 use App\Http\Controllers\TouchController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -23,6 +24,13 @@ use App\Http\Controllers\TouchController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::prefix('user')->group(function(){
+    Route::post('/signup', [UserController::class, 'register']);
+
+    Route::post('/signin', [UserController::class, 'login']);
 });
 
 Route::prefix('story')->group(function(){
