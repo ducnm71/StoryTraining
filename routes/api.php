@@ -34,7 +34,7 @@ Route::prefix('user')->group(function(){
 });
 
 Route::prefix('story')->group(function(){
-    Route::get('/', [StoryController::class, 'index']);
+    Route::get('/', [StoryController::class, 'index'])->middleware('jwt.auth');
 
     Route::post('/', [StoryController::class, 'store']);
 
