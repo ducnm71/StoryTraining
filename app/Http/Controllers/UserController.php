@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Validation\ValidationException;
 use App\Repositories\Interface\UserRepositoryInterface;
 
 class UserController extends Controller
@@ -14,12 +17,12 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function register(Request $request){
-        $data = $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            'password' => 'required|min:8'
-        ]);
+    public function register(RegisterRequest $request){
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ];
 
         $user = $this->userRepository->register($data);
         if(!$user){
@@ -28,13 +31,11 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    public function login(Request $request){
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8'
-        ],[
-            'email.email' => 'Incorrect standard of email'
-        ]);
+    public function login(UserRequest $request){
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
         $user = $this->userRepository->login($data);
         if(!$user){
             return response()->json(['msg' => 'User not found'], 404);
