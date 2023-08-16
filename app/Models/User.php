@@ -62,28 +62,4 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public static function register($data){
-        $checkUser = DB::table('users')->where('email', $data['email'])->first();
-        if($checkUser){
-            return false;
-        }
-
-        $newUser = self::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
-
-        $jwt = JWTAuth::fromUser($newUser);
-        return ['user'=>$newUser,'jwt'=> $jwt];
-    }
-
-    public static function login($data){
-        if(!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])){
-            return false;
-        }
-        // $user = DB::table('users')->where('email', $data['email'])->first();
-        $user = Auth::user();
-        return JWTAuth::fromUser($user);
-    }
 }

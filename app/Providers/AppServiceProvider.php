@@ -15,6 +15,8 @@ use App\Repositories\Repository\Text_ConfigRepository;
 use App\Repositories\Interface\Text_ConfigRepositoryInterface;
 use App\Repositories\Repository\TouchRepository;
 use App\Repositories\Interface\TouchRepositoryInterface;
+use App\Repositories\Repository\UserRepository;
+use App\Repositories\Interface\UserRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AudioRepositoryInterface::class, AudioRepository::class);
         $this->app->bind(Text_ConfigRepositoryInterface::class, Text_ConfigRepository::class);
         $this->app->bind(TouchRepositoryInterface::class, TouchRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**
