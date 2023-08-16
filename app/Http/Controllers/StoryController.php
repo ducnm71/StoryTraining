@@ -3,20 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Story;
+use App\Repositories\Interface\StoryRepositoryInterface;
 
 class StoryController extends Controller
 {
     //
 
+    protected $storyRepository;
+
+    public function __construct(StoryRepositoryInterface $storyRepository)
+    {
+        $this->storyRepository = $storyRepository;
+    }
+
     public function index()
     {
-        return response()->json(['stories'=>Story::getAllStories()]);
+        return response()->json(['stories'=>$this->storyRepository->all()]);
     }
 
     public function show($story_id)
     {
-        $story = Story::getStoryById($story_id);
+        $story = $this->storyRepository->find($story_id);
 
         if (!$story) {
             return response()->json(['message' => 'Story not found'], 404);
@@ -35,7 +42,7 @@ class StoryController extends Controller
             'thumbnail.required' => 'Thumbnail of story is required'
         ]);
 
-        $story = Story::createStory($data);
+        $story = $this->storyRepository->create($data);
 
         return response()->json(['story'=>$story, 'msg'=>'Story created successfully'],200);
     }
@@ -47,7 +54,7 @@ class StoryController extends Controller
             'thumbnail' => 'string|max:255',
         ]);
 
-        $story = Story::updateStory($story_id, $data);
+        $story = $this->storyRepository->update($story_id, $data);
 
         if (!$story) {
             return response()->json(['message' => 'Story not found'], 404);
@@ -58,7 +65,7 @@ class StoryController extends Controller
 
     public function destroy($story_id)
     {
-        $result = Story::deleteStory($story_id);
+        $result = $this->storyRepository->delete($story_id);
 
         if (!$result) {
             return response()->json(['message' => 'Story not found'], 404);

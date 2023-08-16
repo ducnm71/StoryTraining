@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Page;
+use App\Repositories\Interface\PageRepositoryInterface;
 
 class PageController extends Controller
 {
+    protected $pageRepository;
+    public function __construct(PageRepositoryInterface $pageRepository)
+    {
+        $this->pageRepository = $pageRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index($story_id)
     {
-        return response()->json(Page::getAllPage($story_id),200);
+        return response()->json($this->pageRepository->getAllPage($story_id),200);
     }
 
     /**
@@ -29,7 +36,7 @@ class PageController extends Controller
             'background.required' => 'background is required'
         ]);
 
-        $page = Page::createPage($story_id, $validatedData);
+        $page = $this->pageRepository->createPage($story_id, $validatedData);
 
         return response()->json(['page'=>$page, 'msg'=>'Page created successfully'],200);
     }
@@ -47,7 +54,7 @@ class PageController extends Controller
      */
     public function show($page_id)
     {
-        $page = Page::getPage($page_id);
+        $page = $this->pageRepository->find($page_id);
         if(!$page){
             return response()->json(['message' => 'Page not found'], 404);
         }
@@ -73,7 +80,7 @@ class PageController extends Controller
             // 'story_id' => 'string|max:255'
         ]);
 
-        $page = Page::updatePage($page_id, $validatedData);
+        $page = $this->pageRepository->update($page_id, $validatedData);
 
         if (!$page) {
             return response()->json(['message' => 'Page not found'], 404);
@@ -87,7 +94,7 @@ class PageController extends Controller
      */
     public function destroy($page_id)
     {
-        $result = Page::deletePage($page_id);
+        $result = $this->pageRepository->delete($page_id);
 
         if (!$result) {
             return response()->json(['message' => 'Page not found'], 404);

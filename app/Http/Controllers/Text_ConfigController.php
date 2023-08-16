@@ -3,16 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Text_Config;
+use App\Repositories\Interface\Text_ConfigRepositoryInterface;
 
 class Text_ConfigController extends Controller
 {
+    protected $text_configRepository;
+
+    public function __construct(Text_ConfigRepositoryInterface $text_configRepository)
+    {
+        $this->text_configRepository = $text_configRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index($page_id)
     {
-        return response()->json(Text_Config::getAllConfig($page_id), 200);
+        return response()->json($this->text_configRepository->getAllConfig($page_id), 200);
     }
 
     // public function index()
@@ -30,7 +37,7 @@ class Text_ConfigController extends Controller
             'point_y' => 'required|numeric|min:0'
         ]);
 
-        $text_config = Text_Config::configText($page_id, $text_id, $data);
+        $text_config = $this->text_configRepository->configText($page_id, $text_id, $data);
         return response()->json($text_config, 200);
     }
 
@@ -67,7 +74,7 @@ class Text_ConfigController extends Controller
             'point_x' => 'numeric|min:0',
             'point_y' => 'numeric|min:0'
         ]);
-        $text_config = Text_Config::updateTextConfig($text_id, $data);
+        $text_config = $this->text_configRepository->updateTextConfig($text_id, $data);
         if(!$text_config){
             return response()->json(['msg' => 'Text not found'], 404);
         }
@@ -79,7 +86,7 @@ class Text_ConfigController extends Controller
      */
     public function destroy($text_id)
     {
-        $result = Text_Config::deleteTextConfig($text_id);
+        $result = $this->text_configRepository->deleteTextConfig($text_id);
 
         if (!$result) {
             return response()->json(['message' => 'Text not found'], 404);

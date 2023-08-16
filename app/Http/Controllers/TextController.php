@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Text;
+use App\Repositories\Interface\TextRepositoryInterface;
 
 class TextController extends Controller
 {
+
+
+    protected $textRepository;
+
+    public function __construct(TextRepositoryInterface $textRepository)
+    {
+        $this->textRepository = $textRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return response()->json(['text'=>$this->textRepository->all()], 200);
     }
 
     /**
@@ -26,7 +34,7 @@ class TextController extends Controller
             'text.required' => 'Text is required'
         ]);
 
-        $text = Text::createText($data);
+        $text = $this->textRepository->create($data);
         return response()->json($text, 200);
     }
 
@@ -43,7 +51,7 @@ class TextController extends Controller
      */
     public function show($text_id)
     {
-        $text = Text::getText($text_id);
+        $text = $this->textRepository->find($text_id);
         return response()->json($text, 200);
     }
 
@@ -63,7 +71,7 @@ class TextController extends Controller
         $data = $request->validate([
             'text' => 'string|max:255'
         ]);
-        $text = Text::updateText($text_id, $data);
+        $text = $this->textRepository->update($text_id, $data);
         if(!$text){
             return response()->json(['msg' => 'Text not found'], 404);
         }
@@ -75,7 +83,7 @@ class TextController extends Controller
      */
     public function destroy($text_id)
     {
-        $result = Text::deleteText($text_id);
+        $result = $this->textRepository->delete($text_id);
 
         if (!$result) {
             return response()->json(['message' => 'Text not found'], 404);

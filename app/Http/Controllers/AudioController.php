@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Audio;
+use App\Repositories\Interface\AudioRepositoryInterface;
 
 class AudioController extends Controller
 {
+    protected $audioRepository;
+
+    public function __construct(AudioRepositoryInterface $audioRepository)
+    {
+        $this->audioRepository = $audioRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return response()->json(['audio'=>$this->audioRepository->all()], 200);
     }
 
     /**
@@ -26,7 +32,7 @@ class AudioController extends Controller
             'file.required' => 'file is required'
         ]);
 
-        $audio = Audio::createAudio($text_id, $data);
+        $audio =$this->audioRepository->createAudio($text_id, $data);
         return response()->json($audio, 200);
     }
 
@@ -43,7 +49,7 @@ class AudioController extends Controller
      */
     public function show($audio_id)
     {
-        $audio = Audio::getAudio($audio_id);
+        $audio = $this->audioRepository->find($audio_id);
         return response()->json($audio, 200);
     }
 
@@ -63,7 +69,7 @@ class AudioController extends Controller
         $data = $request->validate([
             'file' => 'string|max:255'
         ]);
-        $audio = Audio::updateAudio($audio_id, $data);
+        $audio = $this->audioRepository->update($audio_id, $data);
         if(!$audio){
             return response()->json(['msg' => 'audio not found'], 404);
         }
@@ -73,9 +79,9 @@ class AudioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($text_id)
+    public function destroy($audio_id)
     {
-        $result = Audio::deleteAudio($text_id);
+        $result = $this->audioRepository->delete($audio_id);
 
         if (!$result) {
             return response()->json(['message' => 'Audio not found'], 404);

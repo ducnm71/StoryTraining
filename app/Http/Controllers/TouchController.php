@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Touch;
+use App\Repositories\Interface\TouchRepositoryInterface;
 
 class TouchController extends Controller
 {
+    protected $touchRepository;
+
+    public function __construct(TouchRepositoryInterface $touchRepository)
+    {
+        $this->touchRepository = $touchRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index($page_id)
     {
-        return response()->json(Touch::getAllTouch($page_id), 200);
+        return response()->json($this->touchRepository->getAllTouch($page_id), 200);
     }
 
     // public function index()
@@ -29,7 +35,7 @@ class TouchController extends Controller
             'data' => 'required'
         ]);
 
-        $text_config = Touch::createTouch($page_id, $text_id, $data);
+        $text_config = $this->touchRepository->createTouch($page_id, $text_id, $data);
         return response()->json($text_config, 200);
     }
 
@@ -46,7 +52,7 @@ class TouchController extends Controller
      */
     public function show($text_id)
     {
-        return response()->json(Touch::getTouch($text_id), 200);
+        return response()->json($this->touchRepository->getTouch($text_id), 200);
     }
 
     /**
@@ -65,7 +71,7 @@ class TouchController extends Controller
         $data = $request->validate([
             'data' => 'required|json'
         ]);
-        $touch = Touch::updateTouch($text_id, $data);
+        $touch = $this->touchRepository->updateTouch($text_id, $data);
         if(!$touch){
             return response()->json(['msg' => 'Text not found'], 404);
         }
@@ -77,7 +83,7 @@ class TouchController extends Controller
      */
     public function destroy($text_id)
     {
-        $result = Touch::deleteTouch($text_id);
+        $result = $this->touchRepository->deleteTouch($text_id);
 
         if (!$result) {
             return response()->json(['message' => 'Text not found'], 404);

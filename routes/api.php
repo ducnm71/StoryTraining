@@ -58,6 +58,8 @@ Route::prefix('page')->group(function(){
 });
 
 Route::prefix('text')->group(function(){
+    Route::get('/', [TextController::class, 'index']);
+
     Route::get('/{text_id}', [TextController::class, 'show']);
 
     Route::post('/', [TextController::class, 'create']);
@@ -69,6 +71,8 @@ Route::prefix('text')->group(function(){
 
 
 Route::prefix('audio')->group(function(){
+    Route::get('/', [AudioController::class, 'index']);
+
     Route::get('/{audio_id}', [AudioController::class, 'show']);
 
     Route::post('/{text_id}', [AudioController::class, 'create']);
