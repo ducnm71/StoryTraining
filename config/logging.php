@@ -31,10 +31,10 @@ return [
     |
     */
 
-    'deprecations' => [
-        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
-        'trace' => false,
-    ],
+    // 'deprecations' => [
+    //     'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+    //     'trace' => false,
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -126,6 +126,14 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'login_history' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/login_history.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
     ],
 
 ];

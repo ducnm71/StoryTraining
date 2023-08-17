@@ -17,6 +17,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($user);
     }
 
+    public function findByEmail($email)
+    {
+        $result = User::where('email', $email)->first();
+        if(!$result){
+            return false;
+        }
+        return $result;
+    }
+
     public function register($data){
         $checkUser = User::where('email', $data['email'])->first();
         if($checkUser){

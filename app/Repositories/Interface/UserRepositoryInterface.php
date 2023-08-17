@@ -9,4 +9,6 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function register($data);
 
     public function login($data);
+
+    public function findByEmail($email);
 }

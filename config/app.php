@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,11 +185,14 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        // 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     ])->toArray(),
 
-    'log' => 'daily',
-    'log_max_files' => 30,
-    'log_level' => env('APP_LOG_LEVEL', 'error'),
+    // 'log' => 'daily',
+    // 'log_max_files' => 30,
+    // 'log_level' => env('APP_LOG_LEVEL', 'error'),
 
 
 ];
