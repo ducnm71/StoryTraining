@@ -1,5 +1,8 @@
 <?php
 
+
+//validate, dataInput, logic, log, only res each controller, mix text audio
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -22,6 +25,7 @@ class PageController extends Controller
         return response()->json($this->pageRepository->getAllPage($story_id),200);
     }
 
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -37,6 +41,7 @@ class PageController extends Controller
         ]);
 
         $page = $this->pageRepository->createPage($story_id, $validatedData);
+        //find by id then insert
 
         return response()->json(['page'=>$page, 'msg'=>'Page created successfully'],200);
     }
@@ -56,8 +61,10 @@ class PageController extends Controller
     {
         $page = $this->pageRepository->find($page_id);
         if(!$page){
-            return response()->json(['message' => 'Page not found'], 404);
+            // return response()->json(['message' => 'Page not found'], 404);
+            goto next;
         }
+        next:
         return response()->json($page,200);
     }
 

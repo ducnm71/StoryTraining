@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('thumbnail');
+            $table->string('author');
             $table->boolean('isRead')->default(false);
             $table->timestamps();
         });

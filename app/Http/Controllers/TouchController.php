@@ -4,14 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Interface\TouchRepositoryInterface;
+use App\Repositories\Repository\TextRepository;
+use App\Repositories\Repository\Text_ConfigRepository;
+use App\Repositories\Repository\AudioRepository;
 
 class TouchController extends Controller
 {
     protected $touchRepository;
-
-    public function __construct(TouchRepositoryInterface $touchRepository)
+    public AudioRepository $audio;
+    public Text_ConfigRepository $text_config;
+    public TextRepository $text;
+    public function __construct(TouchRepositoryInterface $touchRepository, TextRepository $text,AudioRepository $audio, Text_ConfigRepository $text_config)
     {
         $this->touchRepository = $touchRepository;
+        $this->text = $text;
+        $this->audio = $audio;
+        $this->text_config = $text_config;
     }
     /**
      * Display a listing of the resource.
@@ -29,14 +37,32 @@ class TouchController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, $page_id, $text_id)
+    public function create(Request $request, $page_id)
     {
         $data = $request->validate([
-            'data' => 'required'
+            'text' => 'required',
+            'file' => 'required',
+            'data' => 'required',
         ]);
 
-        $text_config = $this->touchRepository->createTouch($page_id, $text_id, $data);
-        return response()->json($text_config, 200);
+        $dataConfig = [
+            'point_x' => ($data['data']['x2'] + $data['data']['x1']) / 2,
+            'point_y' => ($data['data']['y2'] + $data['data']['y1']) / 2,
+        ];
+
+        $checkText = $this->text->findByText($data);
+        if($checkText){
+            $touch1 = $this->touchRepository->createTouch($page_id, $checkText->id, $data);
+            $newTextConfig1 = $this->text_config->configText($page_id, $checkText->id, $dataConfig);
+            return response()->json(['text' => $checkText, 'touch' => $touch1,'config' => $newTextConfig1, 'existed'], 200);
+        } else {
+            $newText = $this->text->createText($data);
+            $this->audio->createAudio($newText->id, $data);
+            $touch2 = $this->touchRepository->createTouch($page_id, $newText->id, $data);
+            $newTextConfig2 = $this->text_config->configText($page_id, $newText->id, $dataConfig);
+            return response()->json(['text' => $newText, 'touch' => $touch2, 'config' => $newTextConfig2], 200);
+        }
+
     }
 
     /**

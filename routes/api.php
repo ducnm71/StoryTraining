@@ -34,7 +34,7 @@ Route::prefix('user')->group(function(){
 });
 
 Route::prefix('story')->group(function(){
-    Route::get('/', [StoryController::class, 'index'])->middleware('jwt.auth');
+    Route::get('/', [StoryController::class, 'index']);
 
     Route::post('/', [StoryController::class, 'store']);
 
@@ -99,7 +99,7 @@ Route::prefix('touch')->group(function(){
 
     Route::get('/{text_id}', [TouchController::class, 'show']);
 
-    Route::post('/{page_id}/{text_id}', [TouchController::class, 'create']);
+    Route::post('/{page_id}', [TouchController::class, 'create']);
 
     Route::put('/{text_id}', [TouchController::class, 'update']);
 

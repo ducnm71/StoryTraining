@@ -43,7 +43,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     public function login($data){
-        if(!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])){
+        if(!Auth::attempt(['email' => $data['email'], 'password' => $data['password']] )){
             return false;
         }
         // $user = DB::table('users')->where('email', $data['email'])->first();

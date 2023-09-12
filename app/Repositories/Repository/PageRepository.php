@@ -20,12 +20,10 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
     }
 
     public function createPage($story_id, $data){
-        return Page::create(
-            [
+        return Page::create([
             'page_number'=> $data['page_number'],
             'background'=>$data['background'],
             'story_id'=>$story_id
-            ]
-        );
+            ]);
     }
 }

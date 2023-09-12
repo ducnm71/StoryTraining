@@ -16,8 +16,9 @@ class Text_ConfigRepository extends BaseRepository implements Text_ConfigReposit
 
     public function getAllConfig($page_id){
         $configs = Text_Config::where('page_id', $page_id)->get();
-        $text_ids =  $configs->pluck('text_id');
-        return Text::whereIn('id', $text_ids)->get();
+        // $text_ids =  $configs->pluck('text_id');
+        // return Text::whereIn('id', $text_ids)->get();
+        return $configs;
     }
 
     public function configText($page_id, $text_id, $data){

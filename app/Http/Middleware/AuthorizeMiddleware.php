@@ -16,7 +16,7 @@ class AuthorizeMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd(Auth::check());
+        // dd(Auth::check());
         // Kiểm tra xem người dùng đã xác thực hay chưa
         if (!Auth::check()) {
             return response()->json(['message' => 'Unauthorized'], 401);

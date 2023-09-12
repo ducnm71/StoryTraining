@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class VerifyJWTToken
 {
@@ -20,6 +19,7 @@ class VerifyJWTToken
     {
         try {
             $user = JWTAuth::toUser($request->input('token'));
+            dd($user);
         }catch (JWTException $e) {
             if($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 return response()->json(['token_expired'], $e->getStatusCode());

@@ -18,7 +18,7 @@ class StoryController extends Controller
 
     public function index()
     {
-        return response()->json(['stories'=>$this->storyRepository->all()]);
+        return response()->json($this->storyRepository->all());
     }
 
     public function show($story_id)
@@ -36,10 +36,12 @@ class StoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'thumbnail' => 'required|string|max:255'
+            'thumbnail' => 'required|string|max:255',
+            'author' => 'required'
         ], [
             'name.required' => 'Name of story is required',
-            'thumbnail.required' => 'Thumbnail of story is required'
+            'thumbnail.required' => 'Thumbnail of story is required',
+            'author.required' => 'author of story is required'
         ]);
 
         $story = $this->storyRepository->create($data);

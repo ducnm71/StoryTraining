@@ -12,4 +12,16 @@ class TextRepository extends BaseRepository implements TextRepositoryInterface
     {
         parent::__construct($text);
     }
+
+    public function createText($data)
+    {
+        return Text::create([
+            'text' => $data['text']
+        ]);
+    }
+
+    public function findByText($data)
+    {
+        return Text::where('text', $data['text'])->first();
+    }
 }
