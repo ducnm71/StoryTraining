@@ -103,5 +103,5 @@ Route::prefix('touch')->group(function(){
 
     Route::put('/{text_id}', [TouchController::class, 'update']);
 
-    Route::delete('/{text_id}', [TouchController::class, 'destroy']);
+    Route::delete('/{touch_id}', [TouchController::class, 'destroy']);
 });

@@ -16,7 +16,7 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
 
     public function getAllPage($story_id)
     {
-        return Page::where('story_id', $story_id)->get();
+        return Page::where('story_id', $story_id)->limit(3)->get();
     }
 
     public function createPage($story_id, $data){

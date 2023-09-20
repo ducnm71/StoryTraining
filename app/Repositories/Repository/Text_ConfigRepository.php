@@ -21,30 +21,19 @@ class Text_ConfigRepository extends BaseRepository implements Text_ConfigReposit
         return $configs;
     }
 
-    public function configText($page_id, $text_id, $data){
+    public function configText($touch_id, $data){
         return Text_Config::create([
-            'page_id' => $page_id,
-            'text_id' => $text_id,
+            'touch_id' => $touch_id,
             'point_x' => $data['point_x'],
             'point_y' => $data['point_y']
         ]);
     }
 
     public function updateTextConfig($text_id, $data){
-        $text_config = Text_Config::where('text_id', $text_id)->first();
-        if(!$text_config){
-            return false;
-        }
-        Text_Config::where('text_id', $text_id)->update($data);
-        return true;
+        return Text_Config::where('text_id', $text_id)->update($data);
     }
 
     public function deleteTextConfig($text_id){
-        $text_config = Text_Config::where('text_id', $text_id)->first();
-        if(!$text_config){
-            return false;
-        }
-        Text_Config::where('text_id', $text_id)->delete();
-        return true;
+        return Text_Config::where('text_id', $text_id)->delete();
     }
 }

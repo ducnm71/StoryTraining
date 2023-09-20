@@ -53,13 +53,13 @@ class TouchController extends Controller
         $checkText = $this->text->findByText($data);
         if($checkText){
             $touch1 = $this->touchRepository->createTouch($page_id, $checkText->id, $data);
-            $newTextConfig1 = $this->text_config->configText($page_id, $checkText->id, $dataConfig);
+            $newTextConfig1 = $this->text_config->configText($touch1->id, $dataConfig);
             return response()->json(['text' => $checkText, 'touch' => $touch1,'config' => $newTextConfig1, 'existed'], 200);
         } else {
             $newText = $this->text->createText($data);
             $this->audio->createAudio($newText->id, $data);
             $touch2 = $this->touchRepository->createTouch($page_id, $newText->id, $data);
-            $newTextConfig2 = $this->text_config->configText($page_id, $newText->id, $dataConfig);
+            $newTextConfig2 = $this->text_config->configText($touch2->id, $dataConfig);
             return response()->json(['text' => $newText, 'touch' => $touch2, 'config' => $newTextConfig2], 200);
         }
 
@@ -107,14 +107,14 @@ class TouchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($text_id)
+    public function destroy($touch_id)
     {
-        $result = $this->touchRepository->deleteTouch($text_id);
+        $result = $this->touchRepository->deleteTouch($touch_id);
 
         if (!$result) {
-            return response()->json(['message' => 'Text not found'], 404);
+            return response()->json(['message' => 'Touch not found'], 404);
         }
 
-        return response()->json(['message' => 'Text deleted successfully'], 200);
+        return response()->json(['message' => 'Touch deleted successfully'], 200);
     }
 }

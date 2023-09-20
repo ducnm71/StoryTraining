@@ -8,7 +8,7 @@ interface Text_ConfigRepositoryInterface extends BaseRepositoryInterface
 {
     public function getAllConfig($page_id);
 
-    public function configText($page_id, $text_id, $data);
+    public function configText($touch_id, $data);
 
     public function updateTextConfig($text_id, $data);
 

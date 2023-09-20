@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Interface\Text_ConfigRepositoryInterface;
+use App\Models\Text_Config;
 
 class Text_ConfigController extends Controller
 {
@@ -30,14 +31,14 @@ class Text_ConfigController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, $page_id, $text_id)
+    public function create($touch_id, Request $request)
     {
         $data = $request->validate([
             'point_x' => 'required|numeric|min:0',
             'point_y' => 'required|numeric|min:0'
         ]);
 
-        $text_config = $this->text_configRepository->configText($page_id, $text_id, $data);
+        $text_config = $this->text_configRepository->configText($touch_id, $data);
         return response()->json($text_config, 200);
     }
 

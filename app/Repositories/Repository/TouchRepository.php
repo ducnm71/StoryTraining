@@ -28,14 +28,11 @@ class TouchRepository extends BaseRepository implements TouchRepositoryInterface
 
     public function getAllTouch($page_id){
 
-        return Touch::join('page', 'touch.page_id', '=', 'page.id')
-                    ->join('text_config', 'text_config.page_id', '=', 'page.id')
-                    ->join('text', function ($join) {
-                        $join->on('text.id', '=', 'text_config.text_id')
-                            ->on('text.id', '=', 'touch.text_id');
-                    })
+        return Touch::select('text.id', 'text', 'file','data', 'point_x', 'point_y', 'text_config.touch_id')
+                    ->join('page', 'touch.page_id', '=', 'page.id')
+                    ->join('text_config', 'text_config.touch_id', '=', 'touch.id')
+                    ->join('text', 'text.id', '=', 'touch.text_id')
                     ->join('audio', 'audio.text_id', '=', 'text.id')
-                    ->select('text.id', 'text', 'file', 'data', 'point_x', 'point_y')
                     ->where('page.id', '=', $page_id)
                     ->get();
     }
@@ -54,21 +51,11 @@ class TouchRepository extends BaseRepository implements TouchRepositoryInterface
     }
 
     public function updateTouch($text_id, $data){
-        $touch = Touch::where('text_id', $text_id)->first();
-        if(!$touch){
-            return false;
-        }
-        Touch::where('text_id', $text_id)->update($data);
-        return true;
+        return Touch::where('text_id', $text_id)->update($data);
     }
 
-    public function deleteTouch($text_id){
-        $touch = Touch::where('text_id', $text_id)->first();
-        if(!$touch){
-            return false;
-        }
-        Touch::where('text_id', $text_id)->delete();
-        return true;
+    public function deleteTouch($touch_id){
+        return Touch::where('id', $touch_id)->delete();
     }
 
 }

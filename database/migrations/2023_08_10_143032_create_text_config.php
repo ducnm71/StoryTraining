@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('text_config', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('text_id')->references('id')->on('text')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
-            $table->foreignId('page_id')->references('id')->on('page')
+            $table->foreignId('touch_id')->references('id')->on('touch')
             ->onUpdate('cascade')
             ->onDelete('cascade');
             $table->bigInteger('point_x');
