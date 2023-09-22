@@ -17,6 +17,9 @@ use App\Repositories\Repository\TouchRepository;
 use App\Repositories\Interface\TouchRepositoryInterface;
 use App\Repositories\Repository\UserRepository;
 use App\Repositories\Interface\UserRepositoryInterface;
+use App\Repositories\Repository\IconRepository;
+use App\Repositories\Interface\IconRepositoryInterface;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Text_ConfigRepositoryInterface::class, Text_ConfigRepository::class);
         $this->app->bind(TouchRepositoryInterface::class, TouchRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(IconRepositoryInterface::class, IconRepository::class);
     }
 
     /**

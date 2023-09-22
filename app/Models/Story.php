@@ -10,6 +10,6 @@ class Story extends Model
 {
     use HasFactory;
     protected $table = 'story';
-    protected $fillable = ['name', 'thumbnail', 'author'];
+    protected $fillable = ['name', 'type','thumbnail', 'author'];
 
 }

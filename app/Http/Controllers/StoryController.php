@@ -36,10 +36,12 @@ class StoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
             'thumbnail' => 'required|string|max:255',
             'author' => 'required'
         ], [
             'name.required' => 'Name of story is required',
+            'type.required' => 'Type of story is required',
             'thumbnail.required' => 'Thumbnail of story is required',
             'author.required' => 'author of story is required'
         ]);

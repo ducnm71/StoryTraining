@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DB;
 
-class Text extends Model
+class Icon extends Model
 {
     use HasFactory;
-    protected $table = 'text';
-    protected $fillable = ['text', 'syncText'];
 
+    protected $table = 'icon';
+
+    protected $fillable = ['text_id', 'path'];
 }

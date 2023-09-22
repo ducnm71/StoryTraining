@@ -28,7 +28,7 @@ class TouchRepository extends BaseRepository implements TouchRepositoryInterface
 
     public function getAllTouch($page_id){
 
-        return Touch::select('text.id', 'text', 'file','data', 'point_x', 'point_y', 'text_config.touch_id')
+        return Touch::select('text.id', 'text', 'syncText', 'file','data', 'point_x', 'point_y', 'text_config.touch_id')
                     ->join('page', 'touch.page_id', '=', 'page.id')
                     ->join('text_config', 'text_config.touch_id', '=', 'touch.id')
                     ->join('text', 'text.id', '=', 'touch.text_id')

@@ -8,6 +8,8 @@ use App\Repositories\Repository\TextRepository;
 use App\Repositories\Repository\Text_ConfigRepository;
 use App\Repositories\Repository\AudioRepository;
 
+use Illuminate\Support\Facades\Validator;
+
 class TouchController extends Controller
 {
     protected $touchRepository;
@@ -39,11 +41,19 @@ class TouchController extends Controller
      */
     public function create(Request $request, $page_id)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(),[
             'text' => 'required',
             'file' => 'required',
             'data' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $data = (array) $request->all();
+
+        // dd($data);
 
         $dataConfig = [
             'point_x' => ($data['data']['x2'] + $data['data']['x1']) / 2,
@@ -51,6 +61,7 @@ class TouchController extends Controller
         ];
 
         $checkText = $this->text->findByText($data);
+
         if($checkText){
             $touch1 = $this->touchRepository->createTouch($page_id, $checkText->id, $data);
             $newTextConfig1 = $this->text_config->configText($touch1->id, $dataConfig);

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('text', function (Blueprint $table) {
             $table->id();
             $table->string('text');
+            $table->string('syncText', 10000)->nullable();
             $table->timestamps();
         });
     }

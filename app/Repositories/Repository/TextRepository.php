@@ -15,9 +15,16 @@ class TextRepository extends BaseRepository implements TextRepositoryInterface
 
     public function createText($data)
     {
-        return Text::create([
-            'text' => $data['text']
-        ]);
+        if(isset($data['syncText'])){
+            return Text::create([
+                'text' => $data['text'],
+                'syncText' => json_encode($data['syncText'])
+            ]);
+        }else{
+            return Text::create([
+                'text' => $data['text']
+            ]);
+        }
     }
 
     public function findByText($data)
